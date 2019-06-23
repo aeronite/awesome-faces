@@ -1,0 +1,5 @@
+PIL
+requests
+werkzeug
+flask
+Pillow
