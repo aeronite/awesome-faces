@@ -4,6 +4,16 @@ from . import face_service
 def find_most_common(face_urls, confidence):
     """
     Detects face metadata from a list of images and then attempts to find the most common face
+
+    The algorithm heuristic eagerly groups faces into dis-joined sets.
+
+    For example, consider an analysis of faces a,b & c with min confidence of 0.9:
+    a - b has confidence 0.92
+    a - c has confidence 0.85
+    b - c has confidence 0.91
+
+    The first set found is [a,b] after this only 'c' is left so it forms its own set [c]. This is even
+    though theoretically 'b' could have formed the set [b,a,c] if it ran first.
     """
 
     faces_by_image = [face_service.detect_faces(face) for face in face_urls]
