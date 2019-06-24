@@ -1,7 +1,7 @@
 import cognitive_face
 import os
 from flask import Flask
-from .analyzer_resource import api
+from main.analyzer_resource import api
 
 app = Flask(__name__)
 api.init_app(app)

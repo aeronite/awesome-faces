@@ -11,7 +11,12 @@ def find_faces_of_same_person(target_face_id, other_face_ids, min_confidence):
 
     similar_faces = cognitive_face.face.find_similars(face_id=target_face_id, face_ids=other_face_ids)
 
-    return [face['persistedFaceId'] for face in similar_faces if face['confidence'] > min_confidence]
+    filtered_faces = [face['faceId'] for face in similar_faces if face['confidence'] > min_confidence]
+
+    # the target face itself is also part of the similar face set
+    filtered_faces.append(target_face_id)
+
+    return filtered_faces
 
 
 def detect_faces(img_uri):
@@ -19,7 +24,7 @@ def detect_faces(img_uri):
     Calls the Azure Face API for a given url and enriches the returned face data with stats regarding the image itself
     """
 
-    faces = cognitive_face.face.detect(img_uri)
+    faces = cognitive_face.face.detect(img_uri, attributes='age,gender,emotion')
 
     if len(faces) == 0:
         return []
@@ -53,7 +58,15 @@ class FaceInImage:
 
         face_rect = _face_metadata['faceRectangle']
         face_area = face_rect['width'] * face_rect['height']
-        self.percent_of_image = _image_area / face_area
+        self.percent_of_image = face_area / _image_area
 
     def face_id(self):
         return self.face_metadata['faceId']
+
+    def prepare_meta(self, num_common_faces_found):
+        prepared_meta = self.face_metadata
+        prepared_meta['image_uri'] = self.image_uri
+        prepared_meta['num_common_faces_found'] = num_common_faces_found
+
+        return prepared_meta
+

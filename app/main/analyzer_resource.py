@@ -25,7 +25,7 @@ class FaceAnalyzerResource(Resource):
 
 class CommonFaceRequest:
     """
-    Validates the json inut and extracts the 'image_ids' and 'confidence' params
+    Validates the json input and extracts the 'image_ids' and 'confidence' params
     """
 
     def __init__(self, json_input):
@@ -45,4 +45,4 @@ class CommonFaceRequest:
         if 'confidence' in json_input:
             self.confidence = json_input['confidence']
         else:
-            self.confidence = 0.8
+            self.confidence = 0.6
