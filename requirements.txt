@@ -19,7 +19,7 @@ Pillow==6.0.0
 pyrsistent==0.15.2
 Python-EasyConfig==0.1.7
 pytz==2019.1
-PyYAML==5.1.1
+PyYAML==5.4
 requests==2.22.0
 Resource==0.2.1
 six==1.12.0
